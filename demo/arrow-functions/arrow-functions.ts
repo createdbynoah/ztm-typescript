@@ -6,6 +6,6 @@
 // to the parent context, making them useful in event handlers and callback
 // functions. They also support implicit return statements for one-liner
 // functions, which makes the code more readable.
-// 
+//
 // Useful links:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
