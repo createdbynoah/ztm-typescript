@@ -1,7 +1,7 @@
 // An amusement park operator is rolling out a new line-priority scheme where
 // people can get priority ride access based on their ticket. The operator
 // needs a program to determine if the person is allowed to use the priority
-// line based on various conditions. 
+// line based on various conditions.
 //
 // The park has these kinds of tickets:
 // - "Standard"
@@ -33,4 +33,52 @@
 // 4. Create a VIP ticket and assert that it can always access the priority
 //    line
 
-import { strict as assert } from "assert";
+import { strict as assert } from 'assert';
+
+interface PriorityAccess {
+  canAccess(day: string): boolean;
+}
+
+class Standard implements PriorityAccess {
+  canAccess(day: string): boolean {
+    return false;
+  }
+}
+
+class Premium implements PriorityAccess {
+  canAccess(day: string): boolean {
+    return day === 'weekday';
+  }
+}
+
+class Member implements PriorityAccess {
+  canAccess(day: string): boolean {
+    return day === 'weekday' || day === 'weekend';
+  }
+}
+
+class VIP implements PriorityAccess {
+  canAccess(day: string): boolean {
+    return true;
+  }
+}
+
+const standard = new Standard();
+assert.equal(standard.canAccess('weekday'), false);
+assert.equal(standard.canAccess('weekend'), false);
+assert.equal(standard.canAccess('holidays'), false);
+
+const premium = new Premium();
+assert.equal(premium.canAccess('weekday'), true);
+assert.equal(premium.canAccess('weekend'), false);
+assert.equal(premium.canAccess('holidays'), false);
+
+const member = new Member();
+assert.equal(member.canAccess('weekday'), true);
+assert.equal(member.canAccess('weekend'), true);
+assert.equal(member.canAccess('holidays'), false);
+
+const vip = new VIP();
+assert.equal(vip.canAccess('weekday'), true);
+assert.equal(vip.canAccess('weekend'), true);
+assert.equal(vip.canAccess('holidays'), true);
