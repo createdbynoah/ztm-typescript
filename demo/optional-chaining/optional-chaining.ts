@@ -20,3 +20,60 @@
 //
 // Useful links:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Optional_chaining
+
+interface Pii {
+  age?: number;
+  address?: string;
+}
+
+interface SearchResult {
+  name: string;
+  pii?: Pii;
+}
+
+class Database {
+  search(name: string): SearchResult | undefined {
+    switch (name) {
+      case 'John':
+        return {
+          name: 'John Doe',
+          pii: {
+            age: 30,
+          },
+        };
+      case 'Jane':
+        return {
+          name: 'Jane Doe',
+        };
+      default:
+        return undefined;
+    }
+  }
+}
+
+const db = new Database();
+
+// without optional chaining
+{
+  const result = db.search('John');
+  if (
+    result !== undefined &&
+    result !== null &&
+    result.pii !== undefined &&
+    result.pii !== null &&
+    result.pii.age !== undefined &&
+    result.pii.age !== null
+  ) {
+    console.log(result.pii.age);
+  }
+}
+
+// with optional chaining
+{
+  const result = db.search('John');
+  if (result?.pii?.age) {
+    console.log(result.pii.age);
+  }
+}
+
+// whenever you're working with optional fields, it's a good idea to use optional chaining

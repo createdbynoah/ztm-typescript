@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { strict as assert } from "assert";
+import { strict as assert } from 'assert';
 
 // `async/await` allows you to write asynchronous code in a synchronous way.
 // The `async` keyword used with a function or closure creates an asynchronous
@@ -13,3 +13,26 @@ import { strict as assert } from "assert";
 // Useful links:
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function
 // https://developer.mozilla.org/en-US/docs/Learn/JavaScript/Asynchronous/Promises
+
+async function fetchUserData(userId: number): Promise<{ name: string }> {
+  const response = await fetch(
+    `https://jsonplaceholder.typicode.com/users/${userId}`
+  );
+  const data = await response.json();
+  return { name: data.name };
+}
+
+// Async/Await API
+(async () => {
+  try {
+    const userData = await fetchUserData(1);
+    console.log(userData.name);
+  } catch (e) {
+    console.error(`Error: ${e}`);
+  }
+})();
+
+// Promise API
+fetchUserData(1)
+  .then((userData) => console.log(userData.name))
+  .catch((e) => console.error(`Error: ${e}`));

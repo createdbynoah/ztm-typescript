@@ -9,3 +9,44 @@
 // Useful links:
 // https://www.typescriptlang.org/docs/handbook/2/objects.html#optional-properties
 
+type Warranty = 'standard' | 'extended';
+
+function warrantyInfo(warranty: Warranty): string {
+  switch (warranty) {
+    case 'standard':
+      return '90 day warranty';
+    case 'extended':
+      return '1 year warranty';
+  }
+}
+
+// Optional fields are defined by appending a question mark "?" to the field name
+interface LineItem {
+  name: string;
+  quantity: number;
+  // undefined if not present
+  warranty?: Warranty;
+}
+
+function printLine(item: LineItem): void {
+  console.log(`${item.name} x ${item.quantity}`);
+  if (item.warranty) {
+    console.log(`Warranty: ${warrantyInfo(item.warranty)}`);
+  } else {
+    console.log('No warranty');
+  }
+}
+
+const boxFan: LineItem = {
+  name: 'Box Fan',
+  quantity: 2,
+};
+
+const heater: LineItem = {
+  name: 'Space Heater',
+  quantity: 1,
+  warranty: 'standard',
+};
+
+printLine(boxFan);
+printLine(heater);
