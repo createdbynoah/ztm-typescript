@@ -25,15 +25,40 @@
 // - Create a `totalEnrollments` function to calculate the number of
 //   sections a student is enrolled in.
 
-import { strict as assert } from "assert";
+import { strict as assert } from 'assert';
+
+interface Student {
+  name: string;
+  enrollments: string[];
+}
 
 const alice = {
-  name: "Alice",
+  name: 'Alice',
   enrollments: [],
 };
 
 const bob = {
-  name: "Bob",
-  enrollments: ["Algorithms"],
+  name: 'Bob',
+  enrollments: ['Algorithms'],
+};
+
+function addSection(student: Student, section: string): void {
+  student.enrollments.push(section);
 }
 
+function removeSection(student: Student, section: string): void {
+  student.enrollments = student.enrollments.filter((s) => s !== section);
+}
+
+function totalEnrollments(student: Student): number {
+  return student.enrollments.length;
+}
+
+addSection(alice, 'CompSci');
+addSection(alice, 'Networking');
+removeSection(alice, 'CompSci');
+assert.deepStrictEqual(alice.enrollments, ['Networking']);
+
+addSection(bob, 'Networking');
+assert.deepStrictEqual(bob.enrollments, ['Algorithms', 'Networking']);
+assert.strictEqual(totalEnrollments(bob), 2);

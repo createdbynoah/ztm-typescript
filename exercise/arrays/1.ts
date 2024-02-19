@@ -4,7 +4,7 @@
 //
 // Since this data landed in your department and you love writing programs, you
 // decide to write one for this task instead of just swapping the values in
-// your text editor. 
+// your text editor.
 //
 // The data set consists of two arrays where each element in one array is
 // associated with the element at the same index in the other array. For
@@ -14,10 +14,10 @@
 //   ["brown", "gold", "purple"]  // team colors
 //
 //   Team "brown" ranked 8 while team "gold" ranked 2.
-// 
+//
 // Produce a program that can sort the two arrays in order from rank 1 to rank
 // 4. Using the example from above, the target arrays should look like this:
-//  
+//
 //   [2,       3,        4]        // ranks
 //   ["gold",  "purple", "brown"]  // team colors
 //
@@ -48,8 +48,53 @@
 // 6. Assert that the `ranking` is now [5, 4, 3, 2, 1]
 //    and `teams` is now ["pink", "blue", "red", "yellow", "green"]
 
-import { strict as assert } from "assert";
+import { strict as assert } from 'assert';
 
 const ranking = [3, 4, 1, 2];
-const teams = ["red", "blue", "green", "yellow"];
+const teams = ['red', 'blue', 'green', 'yellow'];
 
+const rankingCopy: number[] = [];
+const teamsCopy: string[] = [];
+
+function getHighestRanking(rankingArr: number[]): number {
+  let currentValue = rankingArr[0];
+  let index = 0;
+  for (let i = 1; i < rankingArr.length; i++) {
+    if (currentValue > rankingArr[i]) {
+      currentValue = rankingArr[i];
+      index = i;
+    }
+  }
+  return index;
+}
+function getLowestRanking(rankingArr: number[]): number {
+  let currentValue = rankingArr[0];
+  let index = 0;
+  for (let i = 1; i < rankingArr.length; i++) {
+    if (currentValue < rankingArr[i]) {
+      currentValue = rankingArr[i];
+      index = i;
+    }
+  }
+  return index;
+}
+
+type SortOrder = 'asc' | 'desc';
+
+function sortRankings(order: SortOrder): void {
+  while (ranking.length > 0) {
+    let index: number;
+    if (order === 'desc') {
+      index = getLowestRanking(ranking);
+    } else {
+      index = getHighestRanking(ranking);
+    }
+    rankingCopy.push(ranking[index]);
+    teamsCopy.push(teams[index]);
+    ranking.splice(index, 1);
+    teams.splice(index, 1);
+  }
+}
+
+sortRankings('desc');
+console.log(rankingCopy, teamsCopy);
