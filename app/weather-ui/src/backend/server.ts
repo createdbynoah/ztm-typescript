@@ -3,13 +3,13 @@ import formBody from '@fastify/formbody';
 import staticFiles from '@fastify/static';
 import axios from 'axios';
 import dotenv from 'dotenv';
-import { fastify } from 'fastify';
+import Fastify from 'fastify';
 import nunjucks from 'nunjucks';
 import { z } from 'zod';
 import { fetchLocationData } from './location';
 import { fetchWeatherData } from './weatherapi';
 
-dotenv.config({ path: '.env.local' });
+dotenv.config();
 
 const environment = process.env.NODE_ENV ?? 'development';
 const templates = new nunjucks.Environment(
@@ -20,7 +20,7 @@ const GEOCODE_API_URL = 'https://geocode.maps.co/search';
 const WEATHER_API_URL = 'https://api.open-meteo.com/v1/forecast';
 const HTTP_CLIENT = axios;
 
-const server = fastify({ logger: true });
+const server = Fastify({ logger: true });
 
 {
   server.register(formBody);
@@ -141,7 +141,7 @@ server.get('/', async (request, reply) => {
 
   const start = async (): Promise<void> => {
     try {
-      await server.listen({ port: 8089 });
+      await server.listen({ port: 8090 });
     } catch (err) {
       server.log.error(err);
       process.exit(1);
